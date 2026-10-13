@@ -1,0 +1,605 @@
+[
+  {
+    "type": "function",
+    "name": "poolState",
+    "stateMutability": "view",
+    "inputs": [
+      {
+        "name": "id",
+        "type": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "components": [
+          {
+            "name": "poolInitializer",
+            "type": "address"
+          },
+          {
+            "name": "skimBuyFarBps",
+            "type": "uint256"
+          },
+          {
+            "name": "skimSellFarBps",
+            "type": "uint256"
+          },
+          {
+            "name": "poolKey",
+            "type": "tuple",
+            "components": [
+              {
+                "name": "currency0",
+                "type": "address"
+              },
+              {
+                "name": "currency1",
+                "type": "address"
+              },
+              {
+                "name": "fee",
+                "type": "uint24"
+              },
+              {
+                "name": "tickSpacing",
+                "type": "int24"
+              },
+              {
+                "name": "hooks",
+                "type": "address"
+              }
+            ]
+          },
+          {
+            "name": "poolBound",
+            "type": "bool"
+          },
+          {
+            "name": "tickSpacing",
+            "type": "int24"
+          },
+          {
+            "name": "vaultEth",
+            "type": "uint256"
+          },
+          {
+            "name": "bidEthDeployed",
+            "type": "uint256"
+          },
+          {
+            "name": "inventoryTokens",
+            "type": "uint256"
+          },
+          {
+            "name": "floorTick",
+            "type": "int24"
+          },
+          {
+            "name": "bidLower",
+            "type": "int24"
+          },
+          {
+            "name": "bidLiquidity",
+            "type": "uint128"
+          },
+          {
+            "name": "cumulativeVolumeEth",
+            "type": "uint256"
+          },
+          {
+            "name": "unpaidSkim",
+            "type": "uint256"
+          },
+          {
+            "name": "needsRatchet",
+            "type": "bool"
+          },
+          {
+            "name": "wallShape",
+            "type": "uint256"
+          },
+          {
+            "name": "seedLiq",
+            "type": "uint128"
+          },
+          {
+            "name": "seedLower",
+            "type": "int24"
+          },
+          {
+            "name": "seedUpper",
+            "type": "int24"
+          },
+          {
+            "name": "seedFeesSweptEth",
+            "type": "uint256"
+          },
+          {
+            "name": "seedFeesSweptTokens",
+            "type": "uint256"
+          },
+          {
+            "name": "ladderUpper",
+            "type": "int24"
+          },
+          {
+            "name": "ladderTokensRemaining",
+            "type": "uint256"
+          },
+          {
+            "name": "ladderProceedsEth",
+            "type": "uint256"
+          },
+          {
+            "name": "ladderSeeded",
+            "type": "bool"
+          },
+          {
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "name": "platformVault",
+            "type": "address"
+          },
+          {
+            "name": "platformPaidEth",
+            "type": "uint256"
+          },
+          {
+            "name": "creatorSlotCount",
+            "type": "uint256"
+          },
+          {
+            "name": "creatorBuyBps",
+            "type": "uint256"
+          },
+          {
+            "name": "creatorSellBps",
+            "type": "uint256"
+          },
+          {
+            "name": "creatorPendingMask",
+            "type": "uint256"
+          },
+          {
+            "name": "recipientClaims",
+            "type": "address"
+          },
+          {
+            "name": "creatorFeesOwed",
+            "type": "uint256"
+          },
+          {
+            "name": "creatorFeesPaid",
+            "type": "uint256"
+          },
+          {
+            "name": "holderRewards",
+            "type": "address"
+          },
+          {
+            "name": "holderBuyBps",
+            "type": "uint256"
+          },
+          {
+            "name": "holderSellBps",
+            "type": "uint256"
+          },
+          {
+            "name": "holderPaidEth",
+            "type": "uint256"
+          },
+          {
+            "name": "quoteToken",
+            "type": "address"
+          },
+          {
+            "name": "quoteIsCurrency1",
+            "type": "bool"
+          },
+          {
+            "name": "custodyVault",
+            "type": "address"
+          },
+          {
+            "name": "skimBuyAtFloorBps",
+            "type": "uint256"
+          },
+          {
+            "name": "skimSellAtFloorBps",
+            "type": "uint256"
+          },
+          {
+            "name": "bidWidth",
+            "type": "int24"
+          },
+          {
+            "name": "referrer",
+            "type": "address"
+          },
+          {
+            "name": "referralFeesPaid",
+            "type": "uint256"
+          },
+          {
+            "name": "quoteUnit",
+            "type": "uint256"
+          },
+          {
+            "name": "holderOwedEth",
+            "type": "uint256"
+          },
+          {
+            "name": "referralFeesOwed",
+            "type": "uint256"
+          },
+          {
+            "name": "teamFeesOwed",
+            "type": "uint256"
+          },
+          {
+            "name": "teamFeesPaid",
+            "type": "uint256"
+          },
+          {
+            "name": "teamFeeBps",
+            "type": "uint256"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "execute",
+    "stateMutability": "payable",
+    "inputs": [
+      {
+        "name": "id",
+        "type": "bytes32"
+      },
+      {
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "poolForAccount",
+    "stateMutability": "view",
+    "inputs": [
+      {
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes32"
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "PoolRegistered",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "poolId",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "name": "launch",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "name": "factory",
+        "type": "address",
+        "indexed": true
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "Ratcheted",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "poolId",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "name": "floorTick",
+        "type": "int24",
+        "indexed": false
+      },
+      {
+        "name": "askTick",
+        "type": "int24",
+        "indexed": false
+      },
+      {
+        "name": "vaultEth",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "inventoryTokens",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "bounty",
+        "type": "uint256",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "BidReplaced",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "poolId",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "name": "tokensAbsorbed",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "ethBack",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "fromLower",
+        "type": "int24",
+        "indexed": false
+      },
+      {
+        "name": "toLower",
+        "type": "int24",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "Seeded",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "poolId",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "name": "from",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "name": "liquidity",
+        "type": "uint128",
+        "indexed": false
+      },
+      {
+        "name": "ethUsed",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "tokensUsed",
+        "type": "uint256",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "LadderSeeded",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "poolId",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "name": "tokens",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "openTick",
+        "type": "int24",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "CushionPlaced",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "poolId",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "name": "lower",
+        "type": "int24",
+        "indexed": false
+      },
+      {
+        "name": "upper",
+        "type": "int24",
+        "indexed": false
+      },
+      {
+        "name": "quote",
+        "type": "uint256",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "CushionParked",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "poolId",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "name": "lower",
+        "type": "int24",
+        "indexed": false
+      },
+      {
+        "name": "upper",
+        "type": "int24",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "StairsPlaced",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "poolId",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "name": "next",
+        "type": "uint8",
+        "indexed": false
+      },
+      {
+        "name": "askTick",
+        "type": "int24",
+        "indexed": false
+      },
+      {
+        "name": "tokens",
+        "type": "uint256",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "StairsCollected",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "poolId",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "name": "collected",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "toFloor",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "toPol",
+        "type": "uint256",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "VaultTokensFed",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "poolId",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "name": "step",
+        "type": "uint8",
+        "indexed": false
+      },
+      {
+        "name": "tokens",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "bought",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "cost",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "need",
+        "type": "uint256",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "name": "ReserveSplit",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "poolId",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "name": "from",
+        "type": "uint8",
+        "indexed": false
+      },
+      {
+        "name": "to",
+        "type": "uint8",
+        "indexed": false
+      },
+      {
+        "name": "left",
+        "type": "uint256",
+        "indexed": false
+      }
+    ]
+  }
+]

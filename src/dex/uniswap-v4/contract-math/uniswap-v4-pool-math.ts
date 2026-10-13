@@ -51,98 +51,129 @@ class UniswapV4PoolMath {
   ): bigint[] {
     const isSell = side === SwapSide.SELL;
 
-    if (isSell) {
-      return amounts.map(amount => {
-        if (amount === 0n) {
-          return 0n;
-        }
+    return amounts.map(amount => {
+      if (amount === 0n) {
+        return 0n;
+      }
 
-        const sqrtPriceLimitX96 = zeroForOne
-          ? TickMath.MIN_SQRT_PRICE + 1n
-          : TickMath.MAX_SQRT_PRICE - 1n;
+      return this._queryOutput(
+        pool,
+        poolState,
+        isSell ? -amount : amount,
+        zeroForOne,
+        hook,
+      );
+    });
+  }
 
-        const amountSpecified = -amount;
-        const [amount0, amount1] = this._swap(poolState, {
-          zeroForOne,
-          amountSpecified,
-          tickSpacing: BigInt(pool.key.tickSpacing),
-          sqrtPriceLimitX96,
-          lpFeeOverride: 0n,
-        } as SwapParams);
+  // Mirrors PoolManager.swap: beforeSwap (delta and LP fee override),
+  // the pool swap, then afterSwap
+  private _queryOutput(
+    pool: Pool,
+    poolState: DeepReadonly<PoolState>,
+    amountSpecified: bigint,
+    zeroForOne: boolean,
+    hook?: IBaseHook,
+  ): bigint {
+    const isExactInput = amountSpecified < 0n;
 
-        const amountSpecifiedActual =
-          zeroForOne === amountSpecified < 0n ? amount0 : amount1;
+    const sqrtPriceLimitX96 = zeroForOne
+      ? TickMath.MIN_SQRT_PRICE + 1n
+      : TickMath.MAX_SQRT_PRICE - 1n;
 
-        if (amountSpecifiedActual !== amountSpecified) {
-          return 0n;
-        }
+    const swapParams = {
+      zeroForOne,
+      amountSpecified: amountSpecified.toString(),
+      sqrtPriceLimitX96: sqrtPriceLimitX96.toString(),
+    };
 
-        let output = zeroForOne ? amount1 : amount0;
+    const permissions = hook?.getHookPermissions();
 
-        if (hook?.getHookPermissions().afterSwap) {
-          output = hook.afterSwap!(
-            NULL_ADDRESS,
-            pool.key,
-            {
-              zeroForOne,
-              amountSpecified: amountSpecified.toString(),
-              sqrtPriceLimitX96: sqrtPriceLimitX96.toString(),
-            },
-            { amount0, amount1 },
-            '0x',
+    let amountToSwap = amountSpecified;
+    let lpFeeOverride = 0n;
+    let hookDeltaUnspecified = 0n;
+
+    if (hook?.beforeSwap && permissions?.beforeSwap) {
+      const [, beforeSwapDelta, lpFee] = hook.beforeSwap(
+        NULL_ADDRESS,
+        pool.key,
+        swapParams,
+        '0x',
+        { poolState },
+      );
+
+      if (LPFeeLibrary.isDynamicFee(BigInt(pool.key.fee))) {
+        lpFeeOverride = BigInt(lpFee);
+      }
+
+      if (permissions.beforeSwapReturnDelta) {
+        if (beforeSwapDelta.deltaSpecified !== 0n) {
+          amountToSwap += beforeSwapDelta.deltaSpecified;
+
+          _require(
+            isExactInput ? amountToSwap <= 0n : amountToSwap >= 0n,
+            'HookDeltaExceedsSwapAmount',
+            { amountSpecified, amountToSwap },
+            'isExactInput ? amountToSwap <= 0n : amountToSwap >= 0n',
           );
         }
-
-        return output;
-      });
-    } else {
-      return amounts.map(amount => {
-        if (amount === 0n) {
-          return 0n;
-        }
-
-        const sqrtPriceLimitX96 = zeroForOne
-          ? TickMath.MIN_SQRT_PRICE + 1n
-          : TickMath.MAX_SQRT_PRICE - 1n;
-
-        const amountSpecified = amount;
-        const [amount0, amount1] = this._swap(poolState, {
-          zeroForOne,
-          amountSpecified: amount,
-          tickSpacing: BigInt(pool.key.tickSpacing),
-          sqrtPriceLimitX96,
-          lpFeeOverride: 0n,
-        } as SwapParams);
-
-        const amountSpecifiedActual =
-          zeroForOne === amountSpecified < 0n ? amount0 : amount1;
-
-        if (amountSpecifiedActual !== amountSpecified) {
-          return 0n;
-        }
-
-        let output = zeroForOne ? -amount0 : -amount1;
-
-        if (hook?.getHookPermissions().afterSwap) {
-          output = hook.afterSwap!(
-            NULL_ADDRESS,
-            pool.key,
-            {
-              zeroForOne,
-              amountSpecified: amountSpecified.toString(),
-              sqrtPriceLimitX96: sqrtPriceLimitX96.toString(),
-            },
-            { amount0, amount1 },
-            '0x',
-          );
-        }
-
-        return output;
-      });
+        hookDeltaUnspecified = beforeSwapDelta.deltaUnspecified;
+      }
     }
+
+    const {
+      amount0,
+      amount1,
+      sqrtPriceX96: sqrtPriceX96After,
+      tick: tickAfter,
+    } = this._swapWithResult(poolState, {
+      zeroForOne,
+      amountSpecified: amountToSwap,
+      tickSpacing: BigInt(pool.key.tickSpacing),
+      sqrtPriceLimitX96,
+      lpFeeOverride,
+    });
+
+    const amountSpecifiedActual =
+      zeroForOne === amountToSwap < 0n ? amount0 : amount1;
+
+    if (amountSpecifiedActual !== amountToSwap) {
+      return 0n;
+    }
+
+    let output = isExactInput
+      ? zeroForOne
+        ? amount1
+        : amount0
+      : zeroForOne
+      ? -amount0
+      : -amount1;
+
+    if (hook?.afterSwap && permissions?.afterSwap) {
+      output = hook.afterSwap(
+        NULL_ADDRESS,
+        pool.key,
+        swapParams,
+        { amount0, amount1 },
+        '0x',
+        { poolState, sqrtPriceX96After, tickAfter },
+      );
+    }
+
+    return isExactInput
+      ? output - hookDeltaUnspecified
+      : output + hookDeltaUnspecified;
   }
 
   _swap(poolState: PoolState, params: SwapParams): [bigint, bigint] {
+    const { amount0, amount1 } = this._swapWithResult(poolState, params);
+    return [amount0, amount1];
+  }
+
+  _swapWithResult(
+    poolState: DeepReadonly<PoolState>,
+    params: SwapParams,
+  ): { amount0: bigint; amount1: bigint; sqrtPriceX96: bigint; tick: bigint } {
     const slot0Start = poolState.slot0;
     const zeroForOne = params.zeroForOne;
 
@@ -178,7 +209,12 @@ class UniswapV4PoolMath {
     }
 
     if (params.amountSpecified === 0n) {
-      return [BalanceDelta.ZERO_DELTA, BalanceDelta.ZERO_DELTA];
+      return {
+        amount0: BalanceDelta.ZERO_DELTA,
+        amount1: BalanceDelta.ZERO_DELTA,
+        sqrtPriceX96: slot0Start.sqrtPriceX96,
+        tick: slot0Start.tick,
+      };
     }
 
     if (zeroForOne) {
@@ -333,20 +369,29 @@ class UniswapV4PoolMath {
     }
 
     if (counter >= MAX_PRICING_COMPUTATION_STEPS_ALLOWED) {
-      return [0n, 0n];
+      return {
+        amount0: 0n,
+        amount1: 0n,
+        sqrtPriceX96: result.sqrtPriceX96,
+        tick: result.tick,
+      };
     }
 
-    if (zeroForOne !== params.amountSpecified < 0) {
-      return [
-        amountCalculated,
-        params.amountSpecified - amountSpecifiedRemaining,
-      ];
-    } else {
-      return [
-        params.amountSpecified - amountSpecifiedRemaining,
-        amountCalculated,
-      ];
-    }
+    const amountSpecifiedUsed =
+      params.amountSpecified - amountSpecifiedRemaining;
+
+    return {
+      amount0:
+        zeroForOne !== params.amountSpecified < 0
+          ? amountCalculated
+          : amountSpecifiedUsed,
+      amount1:
+        zeroForOne !== params.amountSpecified < 0
+          ? amountSpecifiedUsed
+          : amountCalculated,
+      sqrtPriceX96: result.sqrtPriceX96,
+      tick: result.tick,
+    };
   }
 
   tickSpacingToMaxLiquidityPerTick(tickSpacing: bigint) {
@@ -564,11 +609,9 @@ class UniswapV4PoolMath {
       tick: slot0Start.tick,
     };
 
-    const lpFee = slot0Start.lpFee;
-    const swapFee =
-      protocolFee === 0n
-        ? lpFee
-        : ProtocolFeeLibrary.calculateSwapFee(protocolFee, lpFee);
+    // the fee the swap charged: on a dynamic-fee pool the hook may have
+    // overridden slot0's LP fee for this swap
+    const swapFee = newSwapFee;
 
     const paramsTickSpacing = poolState.tickSpacing;
     const paramsSqrtPriceLimitX96 = newSqrtPriceX96;

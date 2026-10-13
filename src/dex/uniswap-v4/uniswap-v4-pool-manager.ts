@@ -40,6 +40,7 @@ import {
   TICK_BITMAP_TO_USE_BY_CHAIN,
 } from './constants';
 import { IBaseHook } from './hooks/types';
+import { LPFeeLibrary } from './contract-math/LPFeeLibrary';
 import { getTopicLogDecoder } from '../../lib/topic-log-decoder';
 
 export class UniswapV4PoolManager extends StatefulEventSubscriber<PoolManagerState> {
@@ -269,10 +270,17 @@ export class UniswapV4PoolManager extends StatefulEventSubscriber<PoolManagerSta
   ): Promise<SubgraphPool[]> {
     const staticPoolsList = UniswapV4PoolsList[this.network];
 
+    const hookPools = await this.queryHookPools(blockNumber);
+
     if (staticPoolsList) {
-      return staticPoolsList.filter(pool =>
-        this.isHookSupported(pool.hooks.toLowerCase()),
+      const pools = this.mergePools(
+        staticPoolsList.filter(pool =>
+          this.isHookSupported(pool.hooks.toLowerCase()),
+        ),
+        hookPools,
       );
+      this.registerHookPools(pools);
+      return pools;
     }
 
     const cachedPoolsRaw = await this.dexHelper.cache.getAndCacheLocally(
@@ -297,8 +305,9 @@ export class UniswapV4PoolManager extends StatefulEventSubscriber<PoolManagerSta
         cachedPools.length &&
         poolsTTL > POOL_CACHE_STORE_INTERVAL - POOL_CACHE_REFRESH_INTERVAL
       ) {
-        this.registerHookPools(cachedPools);
-        return cachedPools;
+        const pools = this.mergePools(cachedPools, hookPools);
+        this.registerHookPools(pools);
+        return pools;
       }
 
       this.logger.info(`Pools cache TTL is ${poolsTTL}, refreshing`);
@@ -343,7 +352,7 @@ export class UniswapV4PoolManager extends StatefulEventSubscriber<PoolManagerSta
 
       if (this.config.skipPoolsWithUnconventionalFees) {
         pools = pools.filter(
-          pool => !this.isPoolWithUnconventionalFees(pool.fee),
+          pool => !this.isPoolWithUnconventionalFees(pool.fee, pool.hooks),
         );
       }
     } catch (error) {
@@ -356,6 +365,8 @@ export class UniswapV4PoolManager extends StatefulEventSubscriber<PoolManagerSta
         pools.filter(p => !cachedPools.find(cp => cp.id === p.id)),
       );
     }
+
+    pools = this.mergePools(pools, hookPools);
 
     // always refresh pools in cache, even when subgraph queries failed
     // so next time we can use previously cached pools
@@ -392,7 +403,8 @@ export class UniswapV4PoolManager extends StatefulEventSubscriber<PoolManagerSta
 
     if (
       UniswapV4PoolsList[this.network] &&
-      !UniswapV4PoolsList[this.network].some(p => p.id === id)
+      !UniswapV4PoolsList[this.network].some(p => p.id === id) &&
+      !this.hookListsOwnPools(hooks)
     ) {
       this.logger.warn(`Pool ${id} is not in the static pools list, skipping.`);
       return {};
@@ -400,7 +412,7 @@ export class UniswapV4PoolManager extends StatefulEventSubscriber<PoolManagerSta
 
     if (
       this.config.skipPoolsWithUnconventionalFees &&
-      this.isPoolWithUnconventionalFees(fee)
+      this.isPoolWithUnconventionalFees(fee, hooks)
     ) {
       this.logger.warn(`Skipping pool ${id} with unconventional fees ${fee}.`);
       return {};
@@ -453,8 +465,54 @@ export class UniswapV4PoolManager extends StatefulEventSubscriber<PoolManagerSta
     return {};
   }
 
-  private isPoolWithUnconventionalFees(fee: string | number): boolean {
+  private isPoolWithUnconventionalFees(
+    fee: string | number,
+    hooks: string,
+  ): boolean {
+    // a dynamic-fee pool of a supported hook takes the fee the hook sets
+    if (
+      BigInt(fee) === LPFeeLibrary.DYNAMIC_FEE_FLAG &&
+      this.hookInstancesByAddress[hooks.toLowerCase()]
+    ) {
+      return false;
+    }
+
     return +fee % 100 !== 0;
+  }
+
+  private hookListsOwnPools(hooks: string): boolean {
+    return !!this.hookInstancesByAddress[hooks.toLowerCase()]?.getPools;
+  }
+
+  private async queryHookPools(blockNumber: number): Promise<SubgraphPool[]> {
+    const hookPools = await Promise.all(
+      Object.values(this.hookInstancesByAddress).map(async hook => {
+        if (!hook.getPools) return [];
+
+        try {
+          return await hook.getPools(blockNumber);
+        } catch (e) {
+          this.logger.error(
+            `${this.parentName}: failed to list pools of hook ${hook.name} (${hook.address})`,
+            e,
+          );
+          return [];
+        }
+      }),
+    );
+
+    return hookPools.flat();
+  }
+
+  private mergePools(
+    pools: SubgraphPool[],
+    extraPools: SubgraphPool[],
+  ): SubgraphPool[] {
+    const ids = new Set(pools.map(pool => pool.id.toLowerCase()));
+
+    return pools.concat(
+      extraPools.filter(pool => !ids.has(pool.id.toLowerCase())),
+    );
   }
 
   private registerHookPools(pools: SubgraphPool[]) {

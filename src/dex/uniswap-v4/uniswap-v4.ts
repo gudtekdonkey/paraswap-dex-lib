@@ -273,7 +273,7 @@ export class UniswapV4 extends SimpleExchange implements IDex<UniswapV4Data> {
         },
         poolAddresses: [this.poolManagerAddress],
         exchange: this.dexKey,
-        gasCost: 100_000,
+        gasCost: eventPool?.hook?.swapGasCost ?? 100_000,
         poolIdentifiers: [poolId],
       };
     });
@@ -354,7 +354,19 @@ export class UniswapV4 extends SimpleExchange implements IDex<UniswapV4Data> {
     let tokenAddress = _tokenAddress.toLowerCase();
     if (isETHAddress(tokenAddress)) tokenAddress = NULL_ADDRESS;
 
-    const poolIds = UniswapV4PoolsList[this.network]?.map(p => p.id);
+    let poolIds = UniswapV4PoolsList[this.network]?.map(p => p.id);
+
+    const hooksListingPools = this.supportedHooks.filter(hook => hook.getPools);
+    if (poolIds && hooksListingPools.length) {
+      // pools of hooks that list their own pools are not in the static list
+      const latestBlock = await this.dexHelper.provider.getBlockNumber();
+      const hookPools = await Promise.all(
+        hooksListingPools.map(hook =>
+          hook.getPools!(latestBlock).catch(() => []),
+        ),
+      );
+      poolIds = poolIds.concat(hookPools.flat().map(p => p.id));
+    }
 
     const hooksToQuery = this.supportedHooks
       .map(hook => hook.address.toLowerCase())

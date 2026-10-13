@@ -1,0 +1,126 @@
+[
+  {
+    "type": "function",
+    "name": "stairs",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "components": [
+          {
+            "name": "next",
+            "type": "uint8"
+          },
+          {
+            "name": "placed",
+            "type": "bool"
+          },
+          {
+            "name": "base",
+            "type": "int24"
+          },
+          {
+            "name": "tailCheap",
+            "type": "int24"
+          },
+          {
+            "name": "tailLiq",
+            "type": "uint128"
+          },
+          {
+            "name": "tailTokens",
+            "type": "uint96"
+          },
+          {
+            "name": "relistLower",
+            "type": "int24"
+          },
+          {
+            "name": "relistUpper",
+            "type": "int24"
+          },
+          {
+            "name": "relistTokens",
+            "type": "uint96"
+          },
+          {
+            "name": "relistLiq",
+            "type": "uint128"
+          },
+          {
+            "name": "cushionLower",
+            "type": "int24"
+          },
+          {
+            "name": "cushionUpper",
+            "type": "int24"
+          },
+          {
+            "name": "cushionLiq",
+            "type": "uint128"
+          },
+          {
+            "name": "cushionQuote",
+            "type": "uint256"
+          },
+          {
+            "name": "cushionFed",
+            "type": "uint256"
+          },
+          {
+            "name": "pending",
+            "type": "uint256"
+          },
+          {
+            "name": "step",
+            "type": "tuple[16]",
+            "components": [
+              {
+                "name": "cheap",
+                "type": "int24"
+              },
+              {
+                "name": "liq",
+                "type": "uint128"
+              },
+              {
+                "name": "tokens",
+                "type": "uint96"
+              }
+            ]
+          },
+          {
+            "name": "boughtTokens",
+            "type": "uint128"
+          },
+          {
+            "name": "boughtCost",
+            "type": "uint128"
+          },
+          {
+            "name": "sweptQuote",
+            "type": "uint256"
+          },
+          {
+            "name": "cushionFees",
+            "type": "uint256"
+          },
+          {
+            "name": "cushionBasisTokens",
+            "type": "uint128"
+          },
+          {
+            "name": "cushionBasisCost",
+            "type": "uint128"
+          },
+          {
+            "name": "cushionInPool",
+            "type": "uint256"
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,765 @@
+{
+  "chainId": 8453,
+  "label": "usdc-currency1",
+  "quote": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  "cases": [
+    {
+      "state": "fresh",
+      "block": "52567596",
+      "poolId": "0x5d47a90997de59d451c2b8effab879349b739e6c9fbe184c648f599c2365785d",
+      "snapshot": {
+        "pool": {
+          "sqrtPriceX96": "560251620315420645015",
+          "tick": -375363,
+          "liquidity": "0",
+          "tickSpacing": 60,
+          "protocolFee": 0,
+          "bitmap": [
+            [-25, "23171868057848225608001957267673688127307776"],
+            [-24, "16"],
+            [-18, "38685626227668133590597632"],
+            [57, "50216813883093446110686315385661331328818843555712276103168"]
+          ],
+          "liquidityNet": [
+            [-375780, "233949789722964659626"],
+            [-375660, "-233949789722964659626"],
+            [-375360, "1536506979824597517"],
+            [-368400, "5788417033539911680"],
+            [-271380, "6186529438248866613"],
+            [887220, "-13511453451613375810"]
+          ]
+        },
+        "quoteIsCurrency1": true,
+        "floorTick": 375780,
+        "rates": {
+          "skimBuyFarBps": 200,
+          "skimSellFarBps": 200,
+          "skimBuyAtFloorBps": 0,
+          "skimSellAtFloorBps": 300,
+          "creatorBuyBps": 75,
+          "creatorSellBps": 75,
+          "holderBuyBps": 0,
+          "holderSellBps": 0,
+          "teamFeeBps": 25
+        },
+        "cushion": {
+          "cushionLower": 0,
+          "cushionLiq": "0"
+        },
+        "gapSkim": true
+      },
+      "expected": [
+        {
+          "side": "buy",
+          "amountIn": "1",
+          "amountOut": "0"
+        },
+        {
+          "side": "buy",
+          "amountIn": "1000",
+          "amountOut": "19752385286347952243"
+        },
+        {
+          "side": "buy",
+          "amountIn": "1000000",
+          "amountOut": "19733121291967385239134"
+        },
+        {
+          "side": "buy",
+          "amountIn": "100000000",
+          "amountOut": "1955725884780553674970888"
+        },
+        {
+          "side": "buy",
+          "amountIn": "1000000000",
+          "amountOut": "18091510345418011355058589"
+        },
+        {
+          "side": "buy",
+          "amountIn": "10000000000",
+          "amountOut": "113538761058875813437374453"
+        },
+        {
+          "side": "buy",
+          "amountIn": "50000000000",
+          "amountOut": "341238849160466139127372762"
+        },
+        {
+          "side": "buy",
+          "amountIn": "100000000000",
+          "amountOut": "474950733078198475250621200"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1",
+          "amountOut": "0"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1000000000000000000",
+          "amountOut": "47"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1000000000000000000000",
+          "amountOut": "46483"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1000000000000000000000000",
+          "amountOut": "46481531"
+        },
+        {
+          "side": "sell",
+          "amountIn": "10000000000000000000000000",
+          "amountOut": "464691063"
+        },
+        {
+          "side": "sell",
+          "amountIn": "50000000000000000000000000",
+          "amountOut": "2320698576"
+        },
+        {
+          "side": "sell",
+          "amountIn": "100000000000000000000000000",
+          "amountOut": "4634523690"
+        }
+      ]
+    },
+    {
+      "state": "after 3 ETH buy",
+      "block": "52567596",
+      "poolId": "0x5d47a90997de59d451c2b8effab879349b739e6c9fbe184c648f599c2365785d",
+      "snapshot": {
+        "pool": {
+          "sqrtPriceX96": "713035609154695139092",
+          "tick": -370540,
+          "liquidity": "1536506979824597517",
+          "tickSpacing": 60,
+          "protocolFee": 0,
+          "bitmap": [
+            [-25, "23171868057848225608001957267673688127307776"],
+            [-24, "16"],
+            [-18, "38685626227668133590597632"],
+            [57, "50216813883093446110686315385661331328818843555712276103168"]
+          ],
+          "liquidityNet": [
+            [-375780, "233949789722964659626"],
+            [-375660, "-233949789722964659626"],
+            [-375360, "1536506979824597517"],
+            [-368400, "5788417033539911680"],
+            [-271380, "6186529438248866613"],
+            [887220, "-13511453451613375810"]
+          ]
+        },
+        "quoteIsCurrency1": true,
+        "floorTick": 375780,
+        "rates": {
+          "skimBuyFarBps": 200,
+          "skimSellFarBps": 200,
+          "skimBuyAtFloorBps": 0,
+          "skimSellAtFloorBps": 300,
+          "creatorBuyBps": 75,
+          "creatorSellBps": 75,
+          "holderBuyBps": 0,
+          "holderSellBps": 0,
+          "teamFeeBps": 25
+        },
+        "cushion": {
+          "cushionLower": 0,
+          "cushionLiq": "0"
+        },
+        "gapSkim": true
+      },
+      "expected": [
+        {
+          "side": "buy",
+          "amountIn": "1",
+          "amountOut": "0"
+        },
+        {
+          "side": "buy",
+          "amountIn": "1000",
+          "amountOut": "12124063047563391804"
+        },
+        {
+          "side": "buy",
+          "amountIn": "1000000",
+          "amountOut": "12112599024866162505036"
+        },
+        {
+          "side": "buy",
+          "amountIn": "100000000",
+          "amountOut": "1202811642771524355886289"
+        },
+        {
+          "side": "buy",
+          "amountIn": "1000000000",
+          "amountOut": "11310924590998882465822234"
+        },
+        {
+          "side": "buy",
+          "amountIn": "10000000000",
+          "amountOut": "91245415713571312843617505"
+        },
+        {
+          "side": "buy",
+          "amountIn": "50000000000",
+          "amountOut": "304711397269086260006763894"
+        },
+        {
+          "side": "buy",
+          "amountIn": "100000000000",
+          "amountOut": "432877876878945872833573863"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1",
+          "amountOut": "0"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1000000000000000000",
+          "amountOut": "78"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1000000000000000000000",
+          "amountOut": "77821"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1000000000000000000000000",
+          "amountOut": "77368220"
+        },
+        {
+          "side": "sell",
+          "amountIn": "10000000000000000000000000",
+          "amountOut": "734710424"
+        },
+        {
+          "side": "sell",
+          "amountIn": "50000000000000000000000000",
+          "amountOut": "2998979640"
+        },
+        {
+          "side": "sell",
+          "amountIn": "100000000000000000000000000",
+          "amountOut": "5319215685"
+        }
+      ]
+    },
+    {
+      "state": "after a ratchet",
+      "block": "52567600",
+      "poolId": "0x5d47a90997de59d451c2b8effab879349b739e6c9fbe184c648f599c2365785d",
+      "snapshot": {
+        "pool": {
+          "sqrtPriceX96": "713035609154695139092",
+          "tick": -370540,
+          "liquidity": "707243033761502402",
+          "tickSpacing": 60,
+          "protocolFee": 0,
+          "bitmap": [
+            [
+              -25,
+              "53919893334301279589334769583122250128247825388740122459443403161600"
+            ],
+            [-24, "16"],
+            [-18, "38685626227668133590597632"],
+            [57, "50216813883093446110686315385661331328818843555712276103168"]
+          ],
+          "liquidityNet": [
+            [-375660, "244010921914841906068"],
+            [-375540, "-237466905065396994135"],
+            [-375360, "707243033761502402"],
+            [-375060, "-6544016849444911933"],
+            [-370500, "845858023713557804"],
+            [-368400, "5771822955889448991"],
+            [-271380, "6186529438248866613"],
+            [887220, "-13511453451613375810"]
+          ]
+        },
+        "quoteIsCurrency1": true,
+        "floorTick": 375660,
+        "rates": {
+          "skimBuyFarBps": 200,
+          "skimSellFarBps": 200,
+          "skimBuyAtFloorBps": 0,
+          "skimSellAtFloorBps": 300,
+          "creatorBuyBps": 75,
+          "creatorSellBps": 75,
+          "holderBuyBps": 0,
+          "holderSellBps": 0,
+          "teamFeeBps": 25
+        },
+        "cushion": {
+          "cushionLower": 375060,
+          "cushionLiq": "6544016849444911933"
+        },
+        "gapSkim": true
+      },
+      "expected": [
+        {
+          "side": "buy",
+          "amountIn": "1",
+          "amountOut": "0"
+        },
+        {
+          "side": "buy",
+          "amountIn": "1000",
+          "amountOut": "12099369451130293989"
+        },
+        {
+          "side": "buy",
+          "amountIn": "1000000",
+          "amountOut": "12082043554072412614638"
+        },
+        {
+          "side": "buy",
+          "amountIn": "100000000",
+          "amountOut": "1197563536471540784646669"
+        },
+        {
+          "side": "buy",
+          "amountIn": "1000000000",
+          "amountOut": "11269601550382312020088511"
+        },
+        {
+          "side": "buy",
+          "amountIn": "10000000000",
+          "amountOut": "91038982783659047529055220"
+        },
+        {
+          "side": "buy",
+          "amountIn": "50000000000",
+          "amountOut": "304265113009132250294441581"
+        },
+        {
+          "side": "buy",
+          "amountIn": "100000000000",
+          "amountOut": "432429234541527003587703145"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1",
+          "amountOut": "0"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1000000000000000000",
+          "amountOut": "78"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1000000000000000000000",
+          "amountOut": "77821"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1000000000000000000000000",
+          "amountOut": "76828883"
+        },
+        {
+          "side": "sell",
+          "amountIn": "10000000000000000000000000",
+          "amountOut": "689473451"
+        },
+        {
+          "side": "sell",
+          "amountIn": "50000000000000000000000000",
+          "amountOut": "2676090820"
+        },
+        {
+          "side": "sell",
+          "amountIn": "100000000000000000000000000",
+          "amountOut": "5024075732"
+        }
+      ]
+    },
+    {
+      "state": "after a big buy above the cushion",
+      "block": "52567600",
+      "poolId": "0x5d47a90997de59d451c2b8effab879349b739e6c9fbe184c648f599c2365785d",
+      "snapshot": {
+        "pool": {
+          "sqrtPriceX96": "903680457588668585048",
+          "tick": -365801,
+          "liquidity": "7324924013364509197",
+          "tickSpacing": 60,
+          "protocolFee": 0,
+          "bitmap": [
+            [
+              -25,
+              "53919893334301279589334769583122250128247825388740122459443403161600"
+            ],
+            [-24, "16"],
+            [-18, "38685626227668133590597632"],
+            [57, "50216813883093446110686315385661331328818843555712276103168"]
+          ],
+          "liquidityNet": [
+            [-375660, "244010921914841906068"],
+            [-375540, "-237466905065396994135"],
+            [-375360, "707243033761502402"],
+            [-375060, "-6544016849444911933"],
+            [-370500, "845858023713557804"],
+            [-368400, "5771822955889448991"],
+            [-271380, "6186529438248866613"],
+            [887220, "-13511453451613375810"]
+          ]
+        },
+        "quoteIsCurrency1": true,
+        "floorTick": 375660,
+        "rates": {
+          "skimBuyFarBps": 200,
+          "skimSellFarBps": 200,
+          "skimBuyAtFloorBps": 0,
+          "skimSellAtFloorBps": 300,
+          "creatorBuyBps": 75,
+          "creatorSellBps": 75,
+          "holderBuyBps": 0,
+          "holderSellBps": 0,
+          "teamFeeBps": 25
+        },
+        "cushion": {
+          "cushionLower": 375060,
+          "cushionLiq": "6544016849444911933"
+        },
+        "gapSkim": true
+      },
+      "expected": [
+        {
+          "side": "buy",
+          "amountIn": "1",
+          "amountOut": "0"
+        },
+        {
+          "side": "buy",
+          "amountIn": "1000",
+          "amountOut": "7455917870845670199"
+        },
+        {
+          "side": "buy",
+          "amountIn": "1000000",
+          "amountOut": "7450220370479242107384"
+        },
+        {
+          "side": "buy",
+          "amountIn": "100000000",
+          "amountOut": "744167925181496485709566"
+        },
+        {
+          "side": "buy",
+          "amountIn": "1000000000",
+          "amountOut": "7364870491771795950502927"
+        },
+        {
+          "side": "buy",
+          "amountIn": "10000000000",
+          "amountOut": "66758295232128512664110824"
+        },
+        {
+          "side": "buy",
+          "amountIn": "50000000000",
+          "amountOut": "235759682291173509208649951"
+        },
+        {
+          "side": "buy",
+          "amountIn": "100000000000",
+          "amountOut": "344901112090708722080037418"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1",
+          "amountOut": "0"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1000000000000000000",
+          "amountOut": "126"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1000000000000000000000",
+          "amountOut": "125374"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1000000000000000000000000",
+          "amountOut": "125179022"
+        },
+        {
+          "side": "sell",
+          "amountIn": "10000000000000000000000000",
+          "amountOut": "1234303047"
+        },
+        {
+          "side": "sell",
+          "amountIn": "50000000000000000000000000",
+          "amountOut": "5811494037"
+        },
+        {
+          "side": "sell",
+          "amountIn": "100000000000000000000000000",
+          "amountOut": "10773647165"
+        }
+      ]
+    },
+    {
+      "state": "after selling half the bag",
+      "block": "52567606",
+      "poolId": "0x5d47a90997de59d451c2b8effab879349b739e6c9fbe184c648f599c2365785d",
+      "snapshot": {
+        "pool": {
+          "sqrtPriceX96": "555315514759569531105",
+          "tick": -375540,
+          "liquidity": "6544016849444911933",
+          "tickSpacing": 60,
+          "protocolFee": 0,
+          "bitmap": [
+            [
+              -25,
+              "53919893334301279589334769583122250128247825388740122459443403161600"
+            ],
+            [-24, "16"],
+            [-18, "38685626227668133590597632"],
+            [57, "50216813883093446110686315385661331328818843555712276103168"]
+          ],
+          "liquidityNet": [
+            [-375660, "226787396660629491875"],
+            [-375540, "-220243379811184579942"],
+            [-375360, "707243033761502402"],
+            [-375060, "-6544016849444911933"],
+            [-370500, "845858023713557804"],
+            [-368400, "5771822955889448991"],
+            [-271380, "6186529438248866613"],
+            [887220, "-13511453451613375810"]
+          ]
+        },
+        "quoteIsCurrency1": true,
+        "floorTick": 375660,
+        "rates": {
+          "skimBuyFarBps": 200,
+          "skimSellFarBps": 200,
+          "skimBuyAtFloorBps": 0,
+          "skimSellAtFloorBps": 300,
+          "creatorBuyBps": 75,
+          "creatorSellBps": 75,
+          "holderBuyBps": 0,
+          "holderSellBps": 0,
+          "teamFeeBps": 25
+        },
+        "cushion": {
+          "cushionLower": 375060,
+          "cushionLiq": "6544016849444911933"
+        },
+        "gapSkim": true
+      },
+      "expected": [
+        {
+          "side": "buy",
+          "amountIn": "1",
+          "amountOut": "0"
+        },
+        {
+          "side": "buy",
+          "amountIn": "1000",
+          "amountOut": "20111130690407873294"
+        },
+        {
+          "side": "buy",
+          "amountIn": "1000000",
+          "amountOut": "20101029535963491291371"
+        },
+        {
+          "side": "buy",
+          "amountIn": "100000000",
+          "amountOut": "2005827689641807011058356"
+        },
+        {
+          "side": "buy",
+          "amountIn": "1000000000",
+          "amountOut": "19691306771418430901900448"
+        },
+        {
+          "side": "buy",
+          "amountIn": "10000000000",
+          "amountOut": "114755239436629566624565884"
+        },
+        {
+          "side": "buy",
+          "amountIn": "50000000000",
+          "amountOut": "340189796431871109095985707"
+        },
+        {
+          "side": "buy",
+          "amountIn": "100000000000",
+          "amountOut": "472975488904264286136502821"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1",
+          "amountOut": "0"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1000000000000000000",
+          "amountOut": "48"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1000000000000000000000",
+          "amountOut": "47045"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1000000000000000000000000",
+          "amountOut": "47042588"
+        },
+        {
+          "side": "sell",
+          "amountIn": "10000000000000000000000000",
+          "amountOut": "470295388"
+        },
+        {
+          "side": "sell",
+          "amountIn": "50000000000000000000000000",
+          "amountOut": "2348581681"
+        },
+        {
+          "side": "sell",
+          "amountIn": "100000000000000000000000000",
+          "amountOut": "4689945258"
+        }
+      ]
+    },
+    {
+      "state": "after a deep sell",
+      "block": "52567606",
+      "poolId": "0x5d47a90997de59d451c2b8effab879349b739e6c9fbe184c648f599c2365785d",
+      "snapshot": {
+        "pool": {
+          "sqrtPriceX96": "555315514759569531105",
+          "tick": -375540,
+          "liquidity": "6544016849444911933",
+          "tickSpacing": 60,
+          "protocolFee": 0,
+          "bitmap": [
+            [
+              -25,
+              "53919893334301279589334769583122250128247825388740122459443403161600"
+            ],
+            [-24, "16"],
+            [-18, "38685626227668133590597632"],
+            [57, "50216813883093446110686315385661331328818843555712276103168"]
+          ],
+          "liquidityNet": [
+            [-375660, "93772655236822806770"],
+            [-375540, "-87228638387377894837"],
+            [-375360, "707243033761502402"],
+            [-375060, "-6544016849444911933"],
+            [-370500, "845858023713557804"],
+            [-368400, "5771822955889448991"],
+            [-271380, "6186529438248866613"],
+            [887220, "-13511453451613375810"]
+          ]
+        },
+        "quoteIsCurrency1": true,
+        "floorTick": 375660,
+        "rates": {
+          "skimBuyFarBps": 200,
+          "skimSellFarBps": 200,
+          "skimBuyAtFloorBps": 0,
+          "skimSellAtFloorBps": 300,
+          "creatorBuyBps": 75,
+          "creatorSellBps": 75,
+          "holderBuyBps": 0,
+          "holderSellBps": 0,
+          "teamFeeBps": 25
+        },
+        "cushion": {
+          "cushionLower": 375060,
+          "cushionLiq": "6544016849444911933"
+        },
+        "gapSkim": true
+      },
+      "expected": [
+        {
+          "side": "buy",
+          "amountIn": "1",
+          "amountOut": "0"
+        },
+        {
+          "side": "buy",
+          "amountIn": "1000",
+          "amountOut": "20111130690407873294"
+        },
+        {
+          "side": "buy",
+          "amountIn": "1000000",
+          "amountOut": "20101029535963491291371"
+        },
+        {
+          "side": "buy",
+          "amountIn": "100000000",
+          "amountOut": "2005827689641807011058356"
+        },
+        {
+          "side": "buy",
+          "amountIn": "1000000000",
+          "amountOut": "19691306771418430901900448"
+        },
+        {
+          "side": "buy",
+          "amountIn": "10000000000",
+          "amountOut": "114755239436629566624565884"
+        },
+        {
+          "side": "buy",
+          "amountIn": "50000000000",
+          "amountOut": "340189796431871109095985707"
+        },
+        {
+          "side": "buy",
+          "amountIn": "100000000000",
+          "amountOut": "472975488904264286136502821"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1",
+          "amountOut": "0"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1000000000000000000",
+          "amountOut": "48"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1000000000000000000000",
+          "amountOut": "47045"
+        },
+        {
+          "side": "sell",
+          "amountIn": "1000000000000000000000000",
+          "amountOut": "47040530"
+        },
+        {
+          "side": "sell",
+          "amountIn": "10000000000000000000000000",
+          "amountOut": "470089881"
+        },
+        {
+          "side": "sell",
+          "amountIn": "50000000000000000000000000",
+          "amountOut": "2343465602"
+        },
+        {
+          "side": "sell",
+          "amountIn": "100000000000000000000000000",
+          "amountOut": null
+        }
+      ]
+    }
+  ]
+}

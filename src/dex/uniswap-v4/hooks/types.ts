@@ -1,4 +1,5 @@
-import { PoolKey } from '../types';
+import { DeepReadonly } from 'ts-essentials';
+import { PoolKey, PoolState, SubgraphPool } from '../types';
 import { IDexHelper } from '../../../dex-helper';
 import { Network } from '../../../constants';
 import { Logger } from '../../../types';
@@ -13,8 +14,20 @@ export interface BalanceDelta {
 }
 
 export interface BeforeSwapDelta {
-  amount0: bigint; // int128
-  amount1: bigint; // int128
+  deltaSpecified: bigint; // int128
+  deltaUnspecified: bigint; // int128
+}
+
+/**
+ * Pool state handed to beforeSwap / afterSwap, standing in for the
+ * PoolManager reads (extsload) a hook makes on chain.
+ */
+export interface HookSwapContext {
+  // The pool's state before the swap
+  poolState: DeepReadonly<PoolState>;
+  // The pool's price and tick right after the swap (afterSwap only)
+  sqrtPriceX96After?: bigint;
+  tickAfter?: bigint;
 }
 
 export interface SwapParams {
@@ -52,11 +65,20 @@ export interface IBaseHook {
 
   readonly address: string;
 
+  // gas of a swap through the hook, where it differs from a plain v4 swap
+  readonly swapGasCost?: number;
+
   getHookPermissions(): HooksPermissions;
 
   registerPool(poolId: string, poolKey: PoolKey): void;
 
   initialize(blockNumber: number): Promise<void>;
+
+  /**
+   * Pools the hook lists itself (e.g. from its own registry). They are
+   * added to the pool list even on networks with a static pools list.
+   */
+  getPools?(blockNumber: number): Promise<SubgraphPool[]>;
 
   beforeInitialize?(sender: string, key: PoolKey, sqrtPriceX96: string): string; // bytes4
 
@@ -99,11 +121,18 @@ export interface IBaseHook {
     hookData: string,
   ): [string, BalanceDelta];
 
+  /**
+   * Returns the selector, the hook's delta (applied to the amount to swap
+   * when beforeSwapReturnDelta is set) and the LP fee (applied when it
+   * carries LPFeeLibrary.OVERRIDE_FEE_FLAG on a dynamic-fee pool).
+   * Throws where the hook reverts.
+   */
   beforeSwap?(
     sender: string,
     key: PoolKey,
     params: SwapParams,
     hookData: string,
+    context?: HookSwapContext,
   ): [string, BeforeSwapDelta, number]; // bytes4, BeforeSwapDelta, uint24
 
   /**
@@ -116,6 +145,7 @@ export interface IBaseHook {
     params: SwapParams,
     delta: BalanceDelta,
     hookData: string,
+    context?: HookSwapContext,
   ): bigint; // int128
 
   beforeDonate?(

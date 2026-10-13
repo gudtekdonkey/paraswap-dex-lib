@@ -2,6 +2,7 @@ import { DexConfigMap } from '../../types';
 import { Network } from '../../constants';
 import { DexParams, SubgraphPool } from './types';
 import { ArenaHook } from './hooks/arena/arena-hook';
+import { FloorHook } from './hooks/floor/floor-hook';
 
 export const UniswapV4Config: DexConfigMap<DexParams> = {
   UniswapV4: {
@@ -22,6 +23,7 @@ export const UniswapV4Config: DexConfigMap<DexParams> = {
       stateView: '0xa3c0c9b65bad0b08107aa264b0f3db444b867a71',
       skipPoolsWithUnconventionalFees: true,
       stateMulticall: '0x223c5fc295557f634979827728558424cf879d44',
+      supportedHooks: [FloorHook],
     },
     [Network.OPTIMISM]: {
       poolManager: '0x9a13f98cb987694c9f086b1f5eb990eea8264ec3',
@@ -63,6 +65,7 @@ export const UniswapV4Config: DexConfigMap<DexParams> = {
       router: '0x1906c1d672b88cd1b9ac7593301ca990f94eae07',
       stateView: '0xd13dd3d6e93f276fafc9db9e6bb47c1180aee0c4',
       stateMulticall: '0x3f5ef7d58ed47135d9911600c1dc1d0f8601b039',
+      supportedHooks: [FloorHook],
     },
     [Network.UNICHAIN]: {
       poolManager: '0x1f98400000000000000000000000000000000004',

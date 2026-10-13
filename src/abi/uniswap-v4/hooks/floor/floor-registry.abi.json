@@ -1,0 +1,69 @@
+[
+  {
+    "type": "function",
+    "name": "count",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "page",
+    "stateMutability": "view",
+    "inputs": [
+      {
+        "name": "start",
+        "type": "uint256"
+      },
+      {
+        "name": "n",
+        "type": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "out",
+        "type": "tuple[]",
+        "components": [
+          {
+            "name": "launch",
+            "type": "address"
+          },
+          {
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "name": "hook",
+            "type": "address"
+          },
+          {
+            "name": "rewards",
+            "type": "address"
+          },
+          {
+            "name": "poolId",
+            "type": "bytes32"
+          },
+          {
+            "name": "mode",
+            "type": "uint8"
+          },
+          {
+            "name": "at",
+            "type": "uint64"
+          },
+          {
+            "name": "registrar",
+            "type": "address"
+          }
+        ]
+      }
+    ]
+  }
+]
